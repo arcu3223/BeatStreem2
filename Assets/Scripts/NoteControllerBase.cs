@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class NoteControllerBase : MonoBehaviour
- {
- public NoteProperty noteProperty;
- }
+{
+    public NoteProperty noteProperty;
+}

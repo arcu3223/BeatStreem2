@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - JudgeNoteLinePrefabs
+  - JudgeNoteLinePrefabs(1)
+  - JudgeNoteLinePrefabs(2)
+  - JudgeNoteLinePrefabs(3)
+  - JudgeNoteLinePrefabs(4)
+  - JudgeNoteLinePrefabs(5)
+  - JudgeNoteLinePrefabs(6)
+  - JudgeNoteLinePrefabs(7)
   layers:
   - Default
   - TransparentFX
