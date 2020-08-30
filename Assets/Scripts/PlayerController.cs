@@ -1,18 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-
+using UnityEngine.Networking;
+using UnityEngine.SceneManagement; // シーン遷移に必要
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject prefabSingleNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabLongNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabAppearNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabSlashNote; // 生成するPrefab
+    [SerializeField] AudioSource audioSource; // 音源再生用AudioSource
 
-    public static float ScrollSpeed = 1.0f; // 譜面のスクロール速度
+    public static float ScrollSpeed = 0.1f; // 譜面のスクロール速度
     public static float CurrentSec = 0f; // 現在の経過時間(秒)
     public static float CurrentBeat = 0f; // 現在の経過時間(beat)
+                                          // まだ判定処理で消えていないノーツ一覧
+    public static List<NoteControllerBase> ExistingNoteControllers;
 
     public static Beatmap beatmap; // 譜面データを管理する
     private float startOffset = 1.0f; // 譜面のオフセット(秒)
+    private float startSec = 0f; // 譜面再生開始秒数(再生停止用)
+    private bool isPlaying = false; // 譜面停止中か否か
 
     void Awake()
     {
@@ -20,58 +30,116 @@ public class PlayerController : MonoBehaviour
         CurrentSec = 0f;
         CurrentBeat = 0f;
 
-        // TODO: ここで譜面の読み込みを行う
-        // 現段階では直打ち
+        // 未処理ノーツ一覧を初期化
+        ExistingNoteControllers = new List<NoteControllerBase>();
 
-        // Beatmapクラスのインスタンスを作成
-        beatmap = new Beatmap();
-
-        // ノーツ配置情報を設定
-        beatmap.noteProperties = new List<NoteProperty>
- {
- new NoteProperty(0, 0, 0, NoteType.Single),
- new NoteProperty(1, 1, 1, NoteType.Single),
- new NoteProperty(2, 2, 2, NoteType.Single),
- new NoteProperty(3, 3, 1, NoteType.Single),
- new NoteProperty(4, 4, 0, NoteType.Single),
- new NoteProperty(4, 4, 4, NoteType.Single),
- new NoteProperty(5, 5, 3, NoteType.Single),
- new NoteProperty(6, 6, 2, NoteType.Single),
- new NoteProperty(7, 7, 3, NoteType.Single),
- new NoteProperty(8, 8, 4, NoteType.Single)
- };
-
-        // テンポ変化を設定
-        beatmap.tempoChanges = new List<TempoChange>
- {
-             new TempoChange(0, 60f),
- new TempoChange(2, 120f),
- new TempoChange(4, 60f),
- new TempoChange(6, 120f)
- };
-
-
+        // ここの譜面読み込み処理を削除した
 
         // ノーツの生成を行う
         foreach (var noteProperty in beatmap.noteProperties)
         {
-            
-            GameObject lane  = new GameObject();
 
-            lane = GameObject.Find("JudgeNoteLine ("+ noteProperty.lane + ")");
+            GameObject lane = new GameObject();
+
+            lane = GameObject.Find("JudgeNoteLine (" + noteProperty.lane + ")");
 
             // beatmapのnotePropertiesの各要素の情報からGameObjectを生成
-            var objNote = Instantiate(prefabSingleNote,lane.transform.position,Quaternion.identity);
+            GameObject objNote = null;
+            switch (noteProperty.noteType)
+            {
+                case NoteType.Single:
+                    objNote = Instantiate(prefabSingleNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.Long:
+                    objNote = Instantiate(prefabLongNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.Appear:
+                    objNote = Instantiate(prefabAppearNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.Slash:
+                    objNote = Instantiate(prefabSlashNote, lane.transform.position, Quaternion.identity);
+                    break;
+            }
+            // ノーツ生成時に未処理ノーツ一覧に追加
+            ExistingNoteControllers.Add(objNote.GetComponent<NoteControllerBase>());
             objNote.GetComponent<NoteControllerBase>().noteProperty = noteProperty;
         }
 
+        // 音源読み込み
+        StartCoroutine(LoadAudioFile(beatmap.audioFilePath));
     }
 
     void Update()
     {
+        // 譜面停止中にスペースを押したとき
+        if (!isPlaying && Input.GetKeyDown(KeyCode.Space))
+        {
+            // 譜面再生
+            isPlaying = true;
+            // 指定した秒数待って音源再生
+            audioSource.PlayScheduled(
+            AudioSettings.dspTime + startOffset + beatmap.audioOffset
+           );
+        }
+        // 譜面停止中
+        if (!isPlaying)
+        {
+            // startSecを更新し続ける
+            startSec = Time.time;
+        }
+        // Escキーを押すと選曲画面に戻る
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // シーン読み込み
+            SceneManager.LoadScene("SelectMusic");
+        }
+
         // 秒数を更新
-        CurrentSec = Time.time - startOffset;
+        CurrentSec = Time.time - startOffset - startSec;
+
         // 拍を更新(ToBeatを使用)
         CurrentBeat = Beatmap.ToBeat(CurrentSec, beatmap.tempoChanges);
+    }
+
+    // 指定されたパスに存在する音源を読み込む
+    private IEnumerator LoadAudioFile(string filePath)
+    {
+        // ファイルが存在しなければ処理を行わない
+        if (!File.Exists(filePath)) { yield break; }
+        // 音源のフォーマット種別
+        var audioType = GetAudioType(filePath);
+        // UnityWebRequestを用いて外部リソースを読み込む
+        using (var request = UnityWebRequestMultimedia.GetAudioClip(
+        "file:///" + filePath, audioType
+        ))
+        {
+            yield return request.SendWebRequest();
+            // エラーが発生しなかった場合
+            if (!request.isNetworkError)
+            {
+                // オーディオクリップを読み込み
+                var audioClip = DownloadHandlerAudioClip.GetContent(request);
+                // audioSourceのclipに設定
+                audioSource.clip = audioClip;
+            }
+        }
+    }
+
+    // ファイル名から音源のフォーマットを取得する
+    private AudioType GetAudioType(string filePath)
+    {
+        // 拡張子を取得
+        string ext = Path.GetExtension(filePath).ToLower();
+        switch (ext)
+        {
+            case ".ogg":
+                return AudioType.OGGVORBIS;
+            case ".mp3":
+                return AudioType.MPEG;
+            case ".wav":
+                return AudioType.WAV;
+            default:
+                return AudioType.UNKNOWN;
+        }
     }
 }

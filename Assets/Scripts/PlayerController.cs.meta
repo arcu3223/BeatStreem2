@@ -3,7 +3,12 @@ guid: 9b022cdcb76e03f409eb72f02cede0fc
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - prefabSingleNote: {instanceID: 0}
+  - prefabLongNote: {instanceID: 0}
+  - prefabAppearNote: {instanceID: 0}
+  - prefabSlashNote: {instanceID: 0}
+  - audioSource: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
