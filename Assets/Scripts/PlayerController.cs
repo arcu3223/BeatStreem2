@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject prefabSlashNote; // 生成するPrefab
     [SerializeField] AudioSource audioSource; // 音源再生用AudioSource
 
-    public static float ScrollSpeed = 1.0f; // 譜面のスクロール速度
+    public static float ScrollSpeed = 0.1f; // 譜面のスクロール速度
     public static float CurrentSec = 0f; // 現在の経過時間(秒)
     public static float CurrentBeat = 0f; // 現在の経過時間(beat)
                                           // まだ判定処理で消えていないノーツ一覧
