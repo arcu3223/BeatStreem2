@@ -12,13 +12,18 @@ public class LongNoteController : NoteControllerBase
     Transform[] StartLine = new Transform[15];
     Transform[] GoalLine = new Transform[15];
 
+    public SpriteRenderer Begin;
+    public SpriteRenderer Trail;
+    public Material Alpha;
+
     void Start()
     {
         for (int Number = 0; Number < 15; Number++)
         {
             StartLine[Number] = GameObject.Find("StartLine (" + Number + ")").transform;
             GoalLine[Number] = GameObject.Find("GoalLine (" + Number + ")").transform;
-        }
+        }  
+
     }
 
 
@@ -46,18 +51,18 @@ public class LongNoteController : NoteControllerBase
         {
             positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionBegin.y = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
+            objBegin.transform.localPosition = Quaternion.Euler(0, 0, 45) * positionBegin;
         }
 
         else if (this.noteProperty.lane == 2)
         {
             positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionBegin.y = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
-            objBegin.transform.localPosition = Quaternion.Euler(0, 0, -90) * positionBegin;
+            positionBegin.y = 0;
+            objBegin.transform.localPosition = positionBegin;
+            objBegin.transform.localPosition = Quaternion.Euler(0, 0, -45) * positionBegin;
         }
 
         else if (this.noteProperty.lane == 3)
@@ -82,24 +87,25 @@ public class LongNoteController : NoteControllerBase
             PlayerController.ScrollSpeed;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
+            objBegin.transform.localPosition = Quaternion.Euler(0, 0, 180) * positionBegin;
         }
 
         else if (this.noteProperty.lane == 6)
         {
             positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionBegin.y = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
+            objBegin.transform.localPosition = Quaternion.Euler(0, 0, 135) * positionBegin;
         }
 
         else if (this.noteProperty.lane == 7)
         {
             positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionBegin.y = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
+            objBegin.transform.localPosition = Quaternion.Euler(0, 0, -135) * positionBegin;
         }
 
         // 終点の座標（beatEndによる指定）
@@ -116,18 +122,18 @@ public class LongNoteController : NoteControllerBase
         {
             positionEnd.x = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionEnd.y = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionEnd.y = 0;
             objEnd.transform.localPosition = positionEnd;
+            objEnd.transform.localPosition = Quaternion.Euler(0, 0, 45) * positionEnd;
         }
 
         else if (this.noteProperty.lane == 2)
         {
             positionEnd.x = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionEnd.y = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
-            objEnd.transform.localPosition = Quaternion.Euler(0, 0, -90) * positionEnd;
+            positionEnd.y = 0;
+            objEnd.transform.localPosition = positionEnd;
+            objEnd.transform.localPosition = Quaternion.Euler(0, 0, -45) * positionEnd;
         }
 
         else if (this.noteProperty.lane == 3)
@@ -152,24 +158,25 @@ public class LongNoteController : NoteControllerBase
             PlayerController.ScrollSpeed;
             positionEnd.y = 0;
             objEnd.transform.localPosition = positionEnd;
+            objEnd.transform.localPosition = Quaternion.Euler(0, 0, 180) * positionEnd;
         }
 
         else if (this.noteProperty.lane == 6)
         {
             positionEnd.x = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionEnd.y = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionEnd.y = 0;
             objEnd.transform.localPosition = positionEnd;
+            objEnd.transform.localPosition = Quaternion.Euler(0, 0, 135) * positionEnd;
         }
 
         else if (this.noteProperty.lane == 7)
         {
             positionEnd.x = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
             PlayerController.ScrollSpeed;
-            positionEnd.y = (noteProperty.beatEnd - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionEnd.y = 0;
             objEnd.transform.localPosition = positionEnd;
+            objEnd.transform.localPosition = Quaternion.Euler(0, 0, -135) * positionEnd;
         }
 
 
@@ -203,9 +210,9 @@ public class LongNoteController : NoteControllerBase
         else if (this.noteProperty.lane == 3)
         {
             transform.position = Vector2.Lerp(StartLine[3].position, GoalLine[3].position, present_Location);
-            objBegin.transform.rotation = Quaternion.Euler(0, 0, -90);
-            objTrail.transform.rotation = Quaternion.Euler(0, 0, -90);
-            objEnd.transform.rotation = Quaternion.Euler(0, 0, -90);
+            objBegin.transform.rotation = Quaternion.Euler(0, 0, 90);
+            objTrail.transform.rotation = Quaternion.Euler(0, 0, 90);
+            objEnd.transform.rotation = Quaternion.Euler(0, 0, 90);
         }
 
         else if (this.noteProperty.lane == 4)
@@ -251,12 +258,12 @@ public class LongNoteController : NoteControllerBase
 
         else if (this.noteProperty.lane == 1)
         {
-            objTrail.transform.localPosition = positionTrail;
+            objTrail.transform.localPosition = Quaternion.Euler(0, 0, 45) * positionTrail;
         }
 
         else if (this.noteProperty.lane == 2)
         {
-            objTrail.transform.localPosition = Quaternion.Euler(0, 0, -90) * positionTrail;
+            objTrail.transform.localPosition = Quaternion.Euler(0, 0, -45) * positionTrail;
         }
 
         else if (this.noteProperty.lane == 3)
@@ -271,17 +278,17 @@ public class LongNoteController : NoteControllerBase
 
         else if (this.noteProperty.lane == 5)
         {
-            objTrail.transform.localPosition = positionTrail;
+            objTrail.transform.localPosition = Quaternion.Euler(0, 0, 180) * positionTrail;
         }
 
         else if (this.noteProperty.lane == 6)
         {
-            objTrail.transform.localPosition = positionTrail;
+            objTrail.transform.localPosition = Quaternion.Euler(0, 0, 135) * positionTrail;
         }
 
         else if (this.noteProperty.lane == 7)
         {
-            objTrail.transform.localPosition = positionTrail;
+            objTrail.transform.localPosition = Quaternion.Euler(0, 0, -135) * positionTrail;
         }
 
         // 軌跡部分の拡大率は終点の始点の座標の差に設定
@@ -344,6 +351,8 @@ public class LongNoteController : NoteControllerBase
             AudioSource.PlayClipAtPoint(clipHit, transform.position);
             // 処理中フラグを付ける
             isProcessed = true;
+            // 通過オブジェクトを非表示にする
+            //SpriteRenderer.material = Alpha;
         }
     }
 
