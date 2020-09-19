@@ -40,37 +40,43 @@ public class AppearNoteController : NoteControllerBase
         else if (this.noteProperty.lane == 9)
         {
             transform.position = Vector2.Lerp(StartLine[9].position, GoalLine[9].position, present_Location);
-            
+            transform.localScale = Vector2.Lerp(new Vector3(1, 1, 1), new Vector3(0, 0, 0), present_Location);
+
         }
 
         else if (this.noteProperty.lane == 10)
         {
             transform.position = Vector2.Lerp(StartLine[10].position, GoalLine[10].position, present_Location);
-            
+            transform.localScale = Vector2.Lerp(new Vector3(1, 1, 1), new Vector3(0, 0, 0), present_Location);
+
         }
 
         else if (this.noteProperty.lane == 11)
         {
             transform.position = Vector2.Lerp(StartLine[11].position, GoalLine[11].position, present_Location);
-            
+            transform.localScale = Vector2.Lerp(new Vector3(1, 1, 1), new Vector3(0, 0, 0), present_Location);
+
         }
 
         else if (this.noteProperty.lane == 12)
         {
             transform.position = Vector2.Lerp(StartLine[12].position, GoalLine[12].position, present_Location);
-            
+            transform.localScale = Vector2.Lerp(new Vector3(1, 1, 1), new Vector3(0, 0, 0), present_Location);
+
         }
 
         else if (this.noteProperty.lane == 13)
         {
             transform.position = Vector2.Lerp(StartLine[13].position, GoalLine[13].position, present_Location);
-            
+            transform.localScale = Vector2.Lerp(new Vector3(1, 1, 1), new Vector3(0, 0, 0), present_Location);
+
         }
 
         else if (this.noteProperty.lane == 14)
         {
             transform.position = Vector2.Lerp(StartLine[14].position, GoalLine[14].position, present_Location);
-            
+            transform.localScale = Vector2.Lerp(new Vector3(1, 1, 1), new Vector3(0, 0, 0), present_Location);
+
         }
 
     }

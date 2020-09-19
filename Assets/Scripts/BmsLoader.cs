@@ -57,7 +57,7 @@ public class BmsLoader
     private float[] measureLengths = Enumerable.Repeat(4f, 1000).ToArray();
     // 各レーンで最後にロングノーツがONになったbeat
     // （OFFの時は負の値にしておく）
-    private float[] longNoteBeginBuffers = new float[] { -1, -1, -1, -1, -1 };
+    private float[] longNoteBeginBuffers = new float[] { -1, -1, -1, -1, -1 - 1, -1 - 1, -1 - 1, -1 };
 
     // (コンストラクタ) BMSファイルを読み込む
     public BmsLoader(string filePath)
