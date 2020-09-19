@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isProcessed: 0
-  clipHit: {fileID: 8300000, guid: a29834805ce59b34f8ac53f54744eead, type: 3}
+  clipHit: {fileID: 0}
 --- !u!212 &212239324223617032
 SpriteRenderer:
   m_ObjectHideFlags: 1

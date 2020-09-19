@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SingleNoteController : NoteControllerBase
 {
     [SerializeField] AudioClip clipHit; // 効果音
     Transform[] StartLine = new Transform[15];
     Transform[] GoalLine = new Transform[15];
+
+
+    //SpriteRenderer spriteRenderer;
+
+    //public Sprite blue;
+    //public Sprite yellow;
 
     void Start()
     {
@@ -15,12 +22,41 @@ public class SingleNoteController : NoteControllerBase
             StartLine[Number] = GameObject.Find("StartLine (" + Number + ")").transform;
             GoalLine[Number] = GameObject.Find("GoalLine (" + Number + ")").transform;
         }
+
+        // このobjectのSpriteRendererを取得
+        //SpriteRenderer blue = gameObject.GetComponent<SpriteRenderer>();
+        // このobjectのSpriteRendererを取得
+        //SpriteRenderer yellow = gameObject.GetComponent<SpriteRenderer>();
+
+        //SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
+
     }
 
     void Update()
     {
         SetTransform();
         CheckMiss();
+
+        //int count = 0;
+        //foreach (var noteProperty in PlayerController.beatmap.noteProperties)
+        //{
+            //bool Douzi = PlayerController.beatmap.noteProperties.FindAll((x) => x.beatBegin == noteProperty.beatBegin).Count >= 2;
+            //if (Douzi == true)
+            //{
+                //count++;
+                //if (count % 2 == 0)
+                //{
+                    //SpriteRenderのspriteを同時押しが偶数の時 黄色に変更
+                    //spriteRenderer.sprite = yellow;
+                //}
+                //else if (count % 2 != 0)
+                //{
+                    //SpriteRenderのspriteを同時押しが奇数の時 青色に変更
+                    //spriteRenderer.sprite = blue;
+                //}
+            //}
+        //}
     }
 
     private void SetTransform()

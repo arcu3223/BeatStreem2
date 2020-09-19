@@ -22,7 +22,12 @@ public class LongNoteController : NoteControllerBase
         {
             StartLine[Number] = GameObject.Find("StartLine (" + Number + ")").transform;
             GoalLine[Number] = GameObject.Find("GoalLine (" + Number + ")").transform;
-        }  
+        }
+
+        // このobjectのSpriteRendererを取得
+        SpriteRenderer Begin = gameObject.GetComponent<SpriteRenderer>();
+        // このobjectのSpriteRendererを取得
+        SpriteRenderer Trail = gameObject.GetComponent<SpriteRenderer>();
 
     }
 
@@ -352,7 +357,8 @@ public class LongNoteController : NoteControllerBase
             // 処理中フラグを付ける
             isProcessed = true;
             // 通過オブジェクトを非表示にする
-            //SpriteRenderer.material = Alpha;
+            //Begin.material = Alpha;
+            //Trail.material = Alpha;
         }
     }
 

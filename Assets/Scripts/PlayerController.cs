@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement; // シーン遷移に必要
+using UnityEngine.Video;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject prefabAppearNote; // 生成するPrefab
     [SerializeField] private GameObject prefabSlashNote; // 生成するPrefab
     [SerializeField] AudioSource audioSource; // 音源再生用AudioSource
+    [SerializeField] VideoPlayer VideoPlayer; // 動画再生用VideoPlayer
 
     public static float ScrollSpeed = 0.1f; // 譜面のスクロール速度
     public static float CurrentSec = 0f; // 現在の経過時間(秒)
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
         // 音源読み込み
         //StartCoroutine(LoadAudioFile(beatmap.audioFilePath));
+
     }
 
     void Update()
@@ -80,6 +83,9 @@ public class PlayerController : MonoBehaviour
             audioSource.PlayScheduled(
             AudioSettings.dspTime + startOffset + beatmap.audioOffset
            );
+            // 指定した秒数待って動画再生
+            VideoPlayer.time = AudioSettings.dspTime + startOffset + beatmap.audioOffset;
+            VideoPlayer.Play();
         }
         // 譜面停止中
         if (!isPlaying)

@@ -34,7 +34,17 @@ public class BmsLoader
  { '2', 1 },
  { '3', 2 },
  { '4', 3 },
- { '5', 4 }
+ { '5', 4 },
+ { '8', 5 },
+ { '9', 6 },
+ { 'A', 7 },
+ { 'B', 8 },
+ { 'C', 9 },
+ { 'D', 10 },
+ { 'E', 11 },
+ { 'F', 12 },
+ { 'G', 13 },
+ { 'H', 14 }
  };
     // ヘッダー名をキー、データを値とする辞書
     public Dictionary<string, string> headerData = new Dictionary<string, string>();
@@ -134,6 +144,8 @@ public class BmsLoader
             // ノーツ・BPM変化
             else if (dataType == DataType.SingleNote ||
             dataType == DataType.LongNote ||
+            dataType == DataType.AppearNote ||
+            dataType == DataType.SlashNote ||
             dataType == DataType.DirectTempoChange ||
             dataType == DataType.IndexedTempoChange ||
             dataType == DataType.Bgm)
@@ -161,7 +173,9 @@ public class BmsLoader
 
                     // ノーツの場合
                     if (dataType == DataType.SingleNote ||
-                    dataType == DataType.LongNote)
+                    dataType == DataType.LongNote ||
+                    dataType == DataType.AppearNote ||
+                    dataType == DataType.SlashNote)
                     {
                         // レーン番号(チャンネル番号の一の位で決まる)
                         int lane = LanePairs[channel[1]];
@@ -194,6 +208,18 @@ public class BmsLoader
                                     // （ロングノーツがOFFになったことを示す）
                                     longNoteBeginBuffers[lane] = -1;
                                 }
+                                break;
+                            case DataType.AppearNote: // 出現ノーツ
+                                                      // 出現ノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.Appear)
+                               );
+                                break;
+                            case DataType.SlashNote: // スラッシュノーツ
+                                                      // スラッシュノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.Slash)
+                               );
                                 break;
                         }
                     }
@@ -240,6 +266,18 @@ public class BmsLoader
             // ロングノーツ
             return DataType.LongNote;
         }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == '3')
+        {
+            // 出現ノーツ
+            return DataType.AppearNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == '4')
+        {
+            // スラッシュノーツ
+            return DataType.SlashNote;
+        }
         // チャンネルが01のとき
         else if (channel == "01")
         {
@@ -278,6 +316,8 @@ public enum DataType
     Unsupported, // 未対応の種別
     SingleNote, // シングルノーツ
     LongNote, // ロングノーツ
+    AppearNote, // 出現ノーツ
+    SlashNote, // スラッシュノーツ
     DirectTempoChange, // BPM直接指定型テンポ変化
     IndexedTempoChange, // BPMインデックス指定型BPM変化
     MeasureChange, // 拍子変化

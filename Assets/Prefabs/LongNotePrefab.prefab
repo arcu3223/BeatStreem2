@@ -171,7 +171,7 @@ MonoBehaviour:
   objBegin: {fileID: 1557373271314300}
   objTrail: {fileID: 1553323169768688}
   objEnd: {fileID: 1835339729688380}
-  clipHit: {fileID: 8300000, guid: 26bf9ece2bd66174992238223e882b5c, type: 3}
+  clipHit: {fileID: 0}
   Begin: {fileID: 212277539131799792}
   Trail: {fileID: 212326548369728884}
   Alpha: {fileID: 2100000, guid: 4aa7828031508a74f9e8986dafb4df00, type: 2}
