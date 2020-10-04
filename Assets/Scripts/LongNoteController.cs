@@ -23,14 +23,7 @@ public class LongNoteController : NoteControllerBase
             StartLine[Number] = GameObject.Find("StartLine (" + Number + ")").transform;
             GoalLine[Number] = GameObject.Find("GoalLine (" + Number + ")").transform;
         }
-
-        // このobjectのSpriteRendererを取得
-        SpriteRenderer Begin = gameObject.GetComponent<SpriteRenderer>();
-        // このobjectのSpriteRendererを取得
-        SpriteRenderer Trail = gameObject.GetComponent<SpriteRenderer>();
-
     }
-
 
     void Update()
     {
@@ -46,16 +39,14 @@ public class LongNoteController : NoteControllerBase
 
         if (this.noteProperty.lane == 0)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
         }
 
         else if (this.noteProperty.lane == 1)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, 45) * positionBegin;
@@ -63,8 +54,7 @@ public class LongNoteController : NoteControllerBase
 
         else if (this.noteProperty.lane == 2)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, -45) * positionBegin;
@@ -72,24 +62,21 @@ public class LongNoteController : NoteControllerBase
 
         else if (this.noteProperty.lane == 3)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, 90) * positionBegin;
         }
 
         else if (this.noteProperty.lane == 4)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, -90) * positionBegin;
         }
 
         else if (this.noteProperty.lane == 5)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, 180) * positionBegin;
@@ -97,8 +84,7 @@ public class LongNoteController : NoteControllerBase
 
         else if (this.noteProperty.lane == 6)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, 135) * positionBegin;
@@ -106,8 +92,7 @@ public class LongNoteController : NoteControllerBase
 
         else if (this.noteProperty.lane == 7)
         {
-            positionBegin.x = (noteProperty.beatBegin - PlayerController.CurrentBeat) *
-            PlayerController.ScrollSpeed;
+            positionBegin.x = 0;
             positionBegin.y = 0;
             objBegin.transform.localPosition = positionBegin;
             objBegin.transform.localPosition = Quaternion.Euler(0, 0, -135) * positionBegin;
@@ -357,8 +342,7 @@ public class LongNoteController : NoteControllerBase
             // 処理中フラグを付ける
             isProcessed = true;
             // 通過オブジェクトを非表示にする
-            //Begin.material = Alpha;
-            //Trail.material = Alpha;
+            Begin.material = Alpha;
         }
     }
 

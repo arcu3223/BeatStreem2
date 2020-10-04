@@ -9,9 +9,21 @@ using UnityEngine.Video;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject prefabSingleNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabBlueSingleNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabYellowSingleNote; // 生成するPrefab
     [SerializeField] private GameObject prefabLongNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabBlueLongNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabYellowLongNote; // 生成するPrefab
     [SerializeField] private GameObject prefabAppearNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabBlueAppearNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabYellowAppearNote; // 生成するPrefab
     [SerializeField] private GameObject prefabSlashNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabBlueSlashNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabYellowSlashNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabWheelNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabBlueWheelNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabYellowWheelNote; // 生成するPrefab
+    [SerializeField] private GameObject prefabStreamNote; // 生成するPrefab
     [SerializeField] AudioSource audioSource; // 音源再生用AudioSource
     [SerializeField] VideoPlayer VideoPlayer; // 動画再生用VideoPlayer
 
@@ -52,14 +64,50 @@ public class PlayerController : MonoBehaviour
                 case NoteType.Single:
                     objNote = Instantiate(prefabSingleNote, lane.transform.position, Quaternion.identity);
                     break;
+                case NoteType.BlueSingle:
+                    objNote = Instantiate(prefabBlueSingleNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.YellowSingle:
+                    objNote = Instantiate(prefabYellowSingleNote, lane.transform.position, Quaternion.identity);
+                    break;
                 case NoteType.Long:
                     objNote = Instantiate(prefabLongNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.BlueLong:
+                    objNote = Instantiate(prefabBlueLongNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.YellowLong:
+                    objNote = Instantiate(prefabYellowLongNote, lane.transform.position, Quaternion.identity);
                     break;
                 case NoteType.Appear:
                     objNote = Instantiate(prefabAppearNote, lane.transform.position, Quaternion.identity);
                     break;
+                case NoteType.BlueAppear:
+                    objNote = Instantiate(prefabBlueAppearNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.YellowAppear:
+                    objNote = Instantiate(prefabYellowAppearNote, lane.transform.position, Quaternion.identity);
+                    break;
                 case NoteType.Slash:
                     objNote = Instantiate(prefabSlashNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.BlueSlash:
+                    objNote = Instantiate(prefabBlueSlashNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.YellowSlash:
+                    objNote = Instantiate(prefabYellowSlashNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.Wheel:
+                    objNote = Instantiate(prefabWheelNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.BlueWheel:
+                    objNote = Instantiate(prefabBlueWheelNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.YellowWheel:
+                    objNote = Instantiate(prefabYellowWheelNote, lane.transform.position, Quaternion.identity);
+                    break;
+                case NoteType.Stream:
+                    objNote = Instantiate(prefabStreamNote, lane.transform.position, Quaternion.identity);
                     break;
             }
             // ノーツ生成時に未処理ノーツ一覧に追加
@@ -70,6 +118,8 @@ public class PlayerController : MonoBehaviour
         // 音源読み込み
         //StartCoroutine(LoadAudioFile(beatmap.audioFilePath));
 
+        VideoPlayer.Prepare();
+
     }
 
     void Update()
@@ -79,13 +129,15 @@ public class PlayerController : MonoBehaviour
         {
             // 譜面再生
             isPlaying = true;
+            //Debug.Log(AudioSettings.dspTime + startOffset + beatmap.audioOffset);
             // 指定した秒数待って音源再生
             audioSource.PlayScheduled(
             AudioSettings.dspTime + startOffset + beatmap.audioOffset
            );
             // 指定した秒数待って動画再生
-            VideoPlayer.time = AudioSettings.dspTime + startOffset + beatmap.audioOffset;
-            VideoPlayer.Play();
+            //VideoPlayer.time = f;
+            //VideoPlayer.Play();
+            StartCoroutine("LateVideo");
         }
         // 譜面停止中
         if (!isPlaying)
@@ -105,6 +157,16 @@ public class PlayerController : MonoBehaviour
 
         // 拍を更新(ToBeatを使用)
         CurrentBeat = Beatmap.ToBeat(CurrentSec, beatmap.tempoChanges);
+    }
+
+    // 動画を指定秒数分中断する
+    private IEnumerator LateVideo()
+    {
+        //指定秒停止
+        yield return new WaitForSeconds(1);
+    
+        //動画再生
+        VideoPlayer.Play();
     }
 
     // 指定されたパスに存在する音源を読み込む

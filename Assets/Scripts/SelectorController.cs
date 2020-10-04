@@ -95,11 +95,33 @@ public class SelectorController : MonoBehaviour
         var notesCount = selectedBmsLoader.noteProperties
         .Count(x => x.noteType == NoteType.Single) +
         selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.BlueSingle) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.YellowSingle) +
+        selectedBmsLoader.noteProperties
         .Count(x => x.noteType == NoteType.Appear) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.BlueAppear) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.YellowAppear) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.BlueSlash) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.YellowSlash) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.Stream) +
         selectedBmsLoader.noteProperties
         .Count(x => x.noteType == NoteType.Slash) +
         selectedBmsLoader.noteProperties
-        .Count(x => x.noteType == NoteType.Long) * 2;
+        .Count(x => x.noteType == NoteType.BlueSlash) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.YellowSlash) +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.Long) * 2 +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.BlueLong) * 2 +
+        selectedBmsLoader.noteProperties
+        .Count(x => x.noteType == NoteType.YellowLong) * 2;
         var minBpm = selectedBmsLoader.tempoChanges.Min(x => x.tempo);
         var maxBpm = selectedBmsLoader.tempoChanges.Max(x => x.tempo);
 

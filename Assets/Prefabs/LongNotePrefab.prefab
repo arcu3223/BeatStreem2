@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 4755480192545740}
   - component: {fileID: 61961729179888418}
   - component: {fileID: 114128343292130124}
+  - component: {fileID: 114853460045804204}
   m_Layer: 0
   m_Name: LongNotePrefab
   m_TagString: Untagged
@@ -175,6 +176,42 @@ MonoBehaviour:
   Begin: {fileID: 212277539131799792}
   Trail: {fileID: 212326548369728884}
   Alpha: {fileID: 2100000, guid: 4aa7828031508a74f9e8986dafb4df00, type: 2}
+--- !u!114 &114853460045804204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1616600836218114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c8d97aff62a473e888feae3bec54cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: TouchScript.Gestures.Gesture+GestureEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  basicEditor: 1
+  generalProps: 0
+  limitsProps: 0
+  advancedProps: 0
+  minPointers: 0
+  maxPointers: 0
+  useSendMessage: 0
+  sendStateChangeMessages: 0
+  sendMessageTarget: {fileID: 0}
+  useUnityEvents: 0
+  sendStateChangeEvents: 0
+  requireGestureToFail: {fileID: 0}
+  friendlyGestures: []
+  OnLongPress:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: TouchScript.Gestures.Gesture+GestureEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  timeToPress: 1
+  distanceLimit: Infinity
 --- !u!212 &212277539131799792
 SpriteRenderer:
   m_ObjectHideFlags: 1

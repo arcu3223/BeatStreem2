@@ -24,7 +24,19 @@ public class NoteProperty
 public enum NoteType
 {
     Single, // シングルノーツ
+    BlueSingle, // 青シングルノーツ
+    YellowSingle, // 黄シングルノーツ
     Long, // ロングノーツ
+    BlueLong, // 青ロングノーツ
+    YellowLong, // 黄ロングノーツ
     Appear, // 出現ノーツ
-    Slash // スラッシュノーツ
+    BlueAppear, // 青出現ノーツ
+    YellowAppear, // 黄出現ノーツ
+    Slash, // スラッシュノーツ
+    BlueSlash, // 青スラッシュノーツ
+    YellowSlash, // 黄スラッシュノーツ
+    Wheel, // スラッシュノーツ
+    BlueWheel, // 青スラッシュノーツ
+    YellowWheel, // 黄スラッシュノーツ
+    Stream // ストリームノーツ
 }

@@ -15,7 +15,7 @@ public class JudgementManager : MonoBehaviour
     // 各レーンに対応するキー
     private static KeyCode[] InputKeys = new KeyCode[]
     {
- KeyCode.C,
+ KeyCode.c,
  KeyCode.V,
  KeyCode.B,
  KeyCode.N,

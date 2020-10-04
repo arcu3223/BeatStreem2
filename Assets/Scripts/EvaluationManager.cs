@@ -46,11 +46,29 @@ public class EvaluationManager : MonoBehaviour
         PlayerController.beatmap.noteProperties
         .Count(x => x.noteType == NoteType.Single) +
         PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.BlueSingle) +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.YellowSingle) +
+        PlayerController.beatmap.noteProperties
         .Count(x => x.noteType == NoteType.Appear) +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.BlueAppear) +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.YellowAppear) +
         PlayerController.beatmap.noteProperties
         .Count(x => x.noteType == NoteType.Slash) +
         PlayerController.beatmap.noteProperties
-        .Count(x => x.noteType == NoteType.Long) * 2;
+        .Count(x => x.noteType == NoteType.BlueSlash) +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.YellowSlash) +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.Stream) +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.Long) * 2 +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.BlueLong) * 2 +
+        PlayerController.beatmap.noteProperties
+        .Count(x => x.noteType == NoteType.YellowLong) * 2;
     }
 
     void Update()

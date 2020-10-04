@@ -8,13 +8,6 @@ public class SlashNoteController : NoteControllerBase
     Transform[] StartLine = new Transform[15];
     Transform[] GoalLine = new Transform[15];
 
-    SpriteRenderer SpriteRenderer;
-
-    public Sprite blue;
-    public Sprite yellow;
-    List<int> myList = new List<int>();
-    public static Beatmap beatmap; // 譜面データを管理する
-
     void Start()
     {
         for (int Number = 0; Number < 15; Number++)
@@ -22,48 +15,12 @@ public class SlashNoteController : NoteControllerBase
             StartLine[Number] = GameObject.Find("StartLine (" + Number + ")").transform;
             GoalLine[Number] = GameObject.Find("GoalLine (" + Number + ")").transform;
         }
-
-        // このobjectのSpriteRendererを取得
-        SpriteRenderer blue = gameObject.GetComponent<SpriteRenderer>();
-        // このobjectのSpriteRendererを取得
-        SpriteRenderer yellow = gameObject.GetComponent<SpriteRenderer>();
-
     }
 
     void Update()
     {
         SetTransform();
         CheckMiss();
-    }
-
-    void ChangeMaterialColor()
-    {
-        int count = 0;
-        foreach (var noteProperty in beatmap.noteProperties)
-            for (int a = 0; a < 1000; a++)
-            {
-                if (noteProperty.beatBegin == a)
-                {
-                    if (noteProperty.lane == 0 || noteProperty.lane == 1 || noteProperty.lane == 2 || noteProperty.lane == 3 || noteProperty.lane == 4
-                        || noteProperty.lane == 5 || noteProperty.lane == 6 || noteProperty.lane == 7 || noteProperty.lane == 8
-                        || noteProperty.lane == 9 || noteProperty.lane == 10 || noteProperty.lane == 11 || noteProperty.lane == 12
-                        || noteProperty.lane == 13 || noteProperty.lane == 14)
-                    {
-                        count++;
-                    }
-                }
-            }
-
-        if (count % 2 == 0)
-        {
-            // SpriteRenderのspriteを同時押しが偶数の時 青色に変更
-            SpriteRenderer.sprite = blue;
-        }
-        else if (count % 2 != 0)
-        {
-            // SpriteRenderのspriteを同時押しが奇数の時 黄色に変更
-            SpriteRenderer.sprite = yellow;
-        }
     }
 
     private void SetTransform()

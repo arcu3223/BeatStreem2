@@ -143,9 +143,21 @@ public class BmsLoader
             }
             // ノーツ・BPM変化
             else if (dataType == DataType.SingleNote ||
+            dataType == DataType.BlueSingleNote ||
+            dataType == DataType.YellowSingleNote ||
             dataType == DataType.LongNote ||
+            dataType == DataType.BlueLongNote ||
+            dataType == DataType.YellowLongNote ||
             dataType == DataType.AppearNote ||
+            dataType == DataType.BlueAppearNote ||
+            dataType == DataType.YellowAppearNote ||
             dataType == DataType.SlashNote ||
+            dataType == DataType.BlueSlashNote ||
+            dataType == DataType.YellowSlashNote ||
+            dataType == DataType.WheelNote ||
+            dataType == DataType.BlueWheelNote ||
+            dataType == DataType.YellowWheelNote ||
+            dataType == DataType.StreamNote ||
             dataType == DataType.DirectTempoChange ||
             dataType == DataType.IndexedTempoChange ||
             dataType == DataType.Bgm)
@@ -173,9 +185,21 @@ public class BmsLoader
 
                     // ノーツの場合
                     if (dataType == DataType.SingleNote ||
-                    dataType == DataType.LongNote ||
-                    dataType == DataType.AppearNote ||
-                    dataType == DataType.SlashNote)
+            dataType == DataType.BlueSingleNote ||
+            dataType == DataType.YellowSingleNote ||
+            dataType == DataType.LongNote ||
+            dataType == DataType.BlueLongNote ||
+            dataType == DataType.YellowLongNote ||
+            dataType == DataType.AppearNote ||
+            dataType == DataType.BlueAppearNote ||
+            dataType == DataType.YellowAppearNote ||
+            dataType == DataType.SlashNote ||
+            dataType == DataType.BlueSlashNote ||
+            dataType == DataType.YellowSlashNote ||
+            dataType == DataType.WheelNote ||
+            dataType == DataType.BlueWheelNote ||
+            dataType == DataType.YellowWheelNote ||
+            dataType == DataType.StreamNote )
                     {
                         // レーン番号(チャンネル番号の一の位で決まる)
                         int lane = LanePairs[channel[1]];
@@ -186,6 +210,18 @@ public class BmsLoader
                                                       // シングルノーツとしてnotePropertiesに追加
                                 noteProperties.Add(
                                 new NoteProperty(beat, beat, lane, NoteType.Single)
+                               );
+                                break;
+                            case DataType.BlueSingleNote: // シングルノーツ
+                                                      // シングルノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.BlueSingle)
+                               );
+                                break;
+                            case DataType.YellowSingleNote: // シングルノーツ
+                                                      // シングルノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.YellowSingle)
                                );
                                 break;
                             case DataType.LongNote: // ロングノーツ
@@ -209,16 +245,106 @@ public class BmsLoader
                                     longNoteBeginBuffers[lane] = -1;
                                 }
                                 break;
+                            case DataType.BlueLongNote: // ロングノーツ
+                                                    // このレーンのロングノーツがOFFの時
+                                if (longNoteBeginBuffers[lane] < 0)
+                                {
+                                    // ロングノーツがONになったことにし、
+                                    // ロングノーツの始点のbeatを保持
+                                    longNoteBeginBuffers[lane] = beat;
+                                }
+                                // このレーンのロングノーツがONの時
+                                else
+                                {
+                                    // 始点のbeat情報はバッファから読み込み、
+                                    // ロングノーツをnotePropertiesに追加
+                                    noteProperties.Add(new NoteProperty(
+                                    longNoteBeginBuffers[lane], beat, lane, NoteType.BlueLong
+                                   ));
+                                    // バッファを適当な負の値に設定
+                                    // （ロングノーツがOFFになったことを示す）
+                                    longNoteBeginBuffers[lane] = -1;
+                                }
+                                break;
+                            case DataType.YellowLongNote: // ロングノーツ
+                                                    // このレーンのロングノーツがOFFの時
+                                if (longNoteBeginBuffers[lane] < 0)
+                                {
+                                    // ロングノーツがONになったことにし、
+                                    // ロングノーツの始点のbeatを保持
+                                    longNoteBeginBuffers[lane] = beat;
+                                }
+                                // このレーンのロングノーツがONの時
+                                else
+                                {
+                                    // 始点のbeat情報はバッファから読み込み、
+                                    // ロングノーツをnotePropertiesに追加
+                                    noteProperties.Add(new NoteProperty(
+                                    longNoteBeginBuffers[lane], beat, lane, NoteType.YellowLong
+                                   ));
+                                    // バッファを適当な負の値に設定
+                                    // （ロングノーツがOFFになったことを示す）
+                                    longNoteBeginBuffers[lane] = -1;
+                                }
+                                break;
                             case DataType.AppearNote: // 出現ノーツ
                                                       // 出現ノーツとしてnotePropertiesに追加
                                 noteProperties.Add(
                                 new NoteProperty(beat, beat, lane, NoteType.Appear)
                                );
                                 break;
+                            case DataType.BlueAppearNote: // 出現ノーツ
+                                                      // 出現ノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.BlueAppear)
+                               );
+                                break;
+                            case DataType.YellowAppearNote: // 出現ノーツ
+                                                      // 出現ノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.YellowAppear)
+                               );
+                                break;
                             case DataType.SlashNote: // スラッシュノーツ
                                                       // スラッシュノーツとしてnotePropertiesに追加
                                 noteProperties.Add(
                                 new NoteProperty(beat, beat, lane, NoteType.Slash)
+                               );
+                                break;
+                            case DataType.BlueSlashNote: // スラッシュノーツ
+                                                     // スラッシュノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.BlueSlash)
+                               );
+                                break;
+                            case DataType.YellowSlashNote: // スラッシュノーツ
+                                                     // スラッシュノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.YellowSlash)
+                               );
+                                break;
+                            case DataType.WheelNote: // 外輪ノーツ
+                                                     // 外輪ノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.Wheel)
+                               );
+                                break;
+                            case DataType.BlueWheelNote: // 外輪ノーツ
+                                                         // 外輪ノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.BlueWheel)
+                               );
+                                break;
+                            case DataType.YellowWheelNote: // 外輪ノーツ
+                                                           // 外輪ノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.YellowWheel)
+                               );
+                                break;
+                            case DataType.StreamNote: // ストリームノーツ
+                                                     // ストリームノーツとしてnotePropertiesに追加
+                                noteProperties.Add(
+                                new NoteProperty(beat, beat, lane, NoteType.Stream)
                                );
                                 break;
                         }
@@ -260,23 +386,80 @@ public class BmsLoader
             // シングルノーツ
             return DataType.SingleNote;
         }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'A')
+        {
+            // シングルノーツ
+            return DataType.BlueSingleNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'B')
+        {
+            // シングルノーツ
+            return DataType.YellowSingleNote;
+        }
         // チャンネルの十の位が5のとき
         else if (channel[0] == '5')
         {
             // ロングノーツ
             return DataType.LongNote;
         }
+        // チャンネルの十の位が5のとき
+        else if (channel[0] == 'C')
+        {
+            // ロングノーツ
+            return DataType.BlueLongNote;
+        }
+        // チャンネルの十の位が5のとき
+        else if (channel[0] == 'D')
+        {
+            // ロングノーツ
+            return DataType.YellowLongNote;
+        }
         // チャンネルの十の位が1のとき
-        else if (channel[0] == '3')
+        if (channel[0] == '3')
         {
             // 出現ノーツ
-            return DataType.AppearNote;
+            //return DataType.AppearNote;
+            return DataType.WheelNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'E')
+        {
+            // 出現ノーツ
+            return DataType.BlueAppearNote;
+            //return DataType.BlueWheelNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'F')
+        {
+            // 出現ノーツ
+            return DataType.YellowAppearNote;
+            //return DataType.YellowWheelNote;
         }
         // チャンネルの十の位が1のとき
         else if (channel[0] == '4')
         {
             // スラッシュノーツ
             return DataType.SlashNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'G')
+        {
+            // スラッシュノーツ
+            return DataType.BlueSlashNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'H')
+        {
+            // スラッシュノーツ
+            return DataType.YellowSlashNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'I')
+        {
+            // スラッシュノーツ
+            return DataType.StreamNote;
         }
         // チャンネルが01のとき
         else if (channel == "01")
@@ -315,9 +498,21 @@ public enum DataType
 {
     Unsupported, // 未対応の種別
     SingleNote, // シングルノーツ
+    BlueSingleNote, // シングルノーツ
+    YellowSingleNote, // シングルノーツ
     LongNote, // ロングノーツ
+    BlueLongNote, // ロングノーツ
+    YellowLongNote, // ロングノーツ
     AppearNote, // 出現ノーツ
+    BlueAppearNote, // 出現ノーツ
+    YellowAppearNote, // 出現ノーツ
     SlashNote, // スラッシュノーツ
+    BlueSlashNote, // スラッシュノーツ
+    YellowSlashNote, // スラッシュノーツ
+    WheelNote, // 外輪ノーツ
+    BlueWheelNote, // 外輪ノーツ
+    YellowWheelNote, // 外輪ノーツ
+    StreamNote, // ストリームノーツ
     DirectTempoChange, // BPM直接指定型テンポ変化
     IndexedTempoChange, // BPMインデックス指定型BPM変化
     MeasureChange, // 拍子変化
