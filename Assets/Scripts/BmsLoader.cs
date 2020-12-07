@@ -417,10 +417,15 @@ public class BmsLoader
             return DataType.YellowLongNote;
         }
         // チャンネルの十の位が1のとき
-        if (channel[0] == '3')
+        else if (channel[0] == '3')
         {
             // 出現ノーツ
-            //return DataType.AppearNote;
+            return DataType.AppearNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'J')
+        {
+            // 外輪ノーツ
             return DataType.WheelNote;
         }
         // チャンネルの十の位が1のとき
@@ -428,14 +433,24 @@ public class BmsLoader
         {
             // 出現ノーツ
             return DataType.BlueAppearNote;
-            //return DataType.BlueWheelNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'K')
+        {
+            // 外輪ノーツ
+            return DataType.BlueWheelNote;
         }
         // チャンネルの十の位が1のとき
         else if (channel[0] == 'F')
         {
             // 出現ノーツ
             return DataType.YellowAppearNote;
-            //return DataType.YellowWheelNote;
+        }
+        // チャンネルの十の位が1のとき
+        else if (channel[0] == 'L')
+        {
+            // 外輪ノーツ
+            return DataType.YellowWheelNote;
         }
         // チャンネルの十の位が1のとき
         else if (channel[0] == '4')
@@ -458,7 +473,7 @@ public class BmsLoader
         // チャンネルの十の位が1のとき
         else if (channel[0] == 'I')
         {
-            // スラッシュノーツ
+            // ストリームノーツ
             return DataType.StreamNote;
         }
         // チャンネルが01のとき

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TouchScript.Gestures;
+using System;
 
 public class LongNoteController : NoteControllerBase
 {
@@ -15,6 +17,9 @@ public class LongNoteController : NoteControllerBase
     public SpriteRenderer Begin;
     public SpriteRenderer Trail;
     public Material Alpha;
+
+    public PressGesture pressGesture;
+    public ReleaseGesture releaseGesture;
 
     void Start()
     {
@@ -349,6 +354,81 @@ public class LongNoteController : NoteControllerBase
     // キーが離された時
     public override void OnKeyUp(JudgementType judgementType)
     {
+        // 判定がBad以内のとき
+        if (judgementType != JudgementType.Miss)
+        {
+            // ヒット処理
+            EvaluationManager.OnHit(judgementType);
+        }
+        // 判定がMissの時(MISS)
+        else
+        {
+            // ミス処理
+            EvaluationManager.OnMiss();
+        }
+        // コンソールに判定を表示
+        Debug.Log(judgementType);
+        // 効果音再生
+        AudioSource.PlayClipAtPoint(clipHit, transform.position);
+        // 処理中フラグを解除
+        isProcessed = false;
+        //リストから削除
+        PlayerController.ExistingNoteControllers.Remove(
+        GetComponent<NoteControllerBase>()
+        );
+        // GameObject自体も削除
+        Destroy(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        GetComponent<PressGesture>().Pressed += OnPressed;
+        GetComponent<ReleaseGesture>().Released += OnReleased;
+    }
+
+    private void OnDisable()
+    {
+        GetComponent<PressGesture>().Pressed -= OnPressed;
+        GetComponent<ReleaseGesture>().Released -= OnReleased;
+    }
+
+    private void OnPressed(object sender, EventArgs e)
+    {
+        // 最近傍のノーツを処理すべきタイミング(sec)
+        var noteSec = noteProperty.secBegin;
+        // 処理すべきタイミングと
+        // 実際にキーが押されたタイミングの差の絶対値
+        var differenceSec = Mathf.Abs(noteSec - PlayerController.CurrentSec);
+        // 最近傍のノーツのOnKeyDownを呼び出し
+        var judgementType = JudgementManager.GetJudgementType(differenceSec);
+
+        // デバッグ用にコンソールに判定を出力
+        Debug.Log(judgementType);
+
+        // 判定がMissでないとき(BAD以内のとき)
+        if (judgementType != JudgementType.Miss)
+        {
+            // ヒット処理
+            EvaluationManager.OnHit(judgementType);
+            // 効果音再生
+            AudioSource.PlayClipAtPoint(clipHit, transform.position);
+            // 処理中フラグを付ける
+            isProcessed = true;
+            // 通過オブジェクトを非表示にする
+            Begin.material = Alpha;
+        }
+    }
+
+    private void OnReleased(object sender, EventArgs e)
+    {
+        // 最近傍のノーツを処理すべきタイミング(sec)
+        var noteSec = noteProperty.secEnd;
+        // 処理すべきタイミングと
+        // 実際にキーが押されたタイミングの差の絶対値
+        var differenceSec = Mathf.Abs(noteSec - PlayerController.CurrentSec);
+        // 最近傍のノーツのOnKeyUpを呼び出し
+        var judgementType = JudgementManager.GetJudgementType(differenceSec);
+
         // 判定がBad以内のとき
         if (judgementType != JudgementType.Miss)
         {

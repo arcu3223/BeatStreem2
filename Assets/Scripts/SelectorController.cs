@@ -4,11 +4,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement; // シーン遷移に必要
 using UnityEngine.UI;
+using TouchScript.Gestures;
 
 public class SelectorController : MonoBehaviour
 {
     [SerializeField] private Text textInformation;
     [SerializeField] private Text textScrollSpeed;
+
+    public TapGesture tapGesture;
 
     // フォーマット指定文字列(テキストの初期状態から読み込み)
     private string informationTextFormat;
@@ -70,7 +73,7 @@ public class SelectorController : MonoBehaviour
             ChangeScrollSpeed(scrollSpeed + 0.1f);
         }
 
-        // 決定処理
+        // 決定処理 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // スクロール速度を設定
@@ -140,5 +143,27 @@ public class SelectorController : MonoBehaviour
         // テキストを変更
         var text = string.Format(scrollSpeedTextFormat, scrollSpeed);
         textScrollSpeed.text = text;
+    }
+
+    void OnEnable()
+    {
+        // TapGestureのdelegateに登録
+        GetComponent<TapGesture>().Tapped += OnTapped;
+    }
+
+    void OnDisable()
+    {
+        // 登録を解除
+        GetComponent<TapGesture>().Tapped -= OnTapped;
+    }
+
+    void OnTapped(object sender, System.EventArgs e)
+    {
+        // スクロール速度を設定
+        PlayerController.ScrollSpeed = scrollSpeed;
+        // 譜面を設定
+        PlayerController.beatmap = new Beatmap(beatmapPaths[selectedIndex]);
+        // シーン切り替え
+        SceneManager.LoadScene("PlayMusic");
     }
 }

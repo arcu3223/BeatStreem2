@@ -15,11 +15,21 @@ public class JudgementManager : MonoBehaviour
     // 各レーンに対応するキー
     private static KeyCode[] InputKeys = new KeyCode[]
     {
- KeyCode.c,
+ KeyCode.C,
  KeyCode.V,
  KeyCode.B,
  KeyCode.N,
  KeyCode.M,
+ KeyCode.D,
+ KeyCode.F,
+ KeyCode.G,
+ KeyCode.H,
+ KeyCode.J,
+ KeyCode.E,
+ KeyCode.R,
+ KeyCode.T,
+ KeyCode.Y,
+ KeyCode.U,
     };
 
     private void Update()
@@ -67,7 +77,7 @@ public class JudgementManager : MonoBehaviour
     }
 
     // タイミングの差の絶対値から判定種別を取得する
-    private JudgementType GetJudgementType(float differenceSec)
+    public static JudgementType GetJudgementType(float differenceSec)
     {
         // PERFECT幅以内のとき
         if (differenceSec <= JudgementWidth[JudgementType.Perfect])

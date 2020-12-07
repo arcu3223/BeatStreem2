@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TouchScript.Gestures;
+using System;
+
 
 public class SlashNoteController : NoteControllerBase
 {
     [SerializeField] AudioClip clipHit; // 効果音
     Transform[] StartLine = new Transform[15];
     Transform[] GoalLine = new Transform[15];
+
+    public FlickGesture flickGesture;
 
     void Start()
     {
@@ -100,6 +105,47 @@ public class SlashNoteController : NoteControllerBase
     // キーが押された時
     public override void OnKeyDown(JudgementType judgementType)
     {
+        // デバッグ用にコンソールに判定を出力
+        Debug.Log(judgementType);
+
+
+        // 判定がMissでないとき(BAD以内のとき)
+        if (judgementType != JudgementType.Miss)
+        {
+            // ヒット処理（スコア・コンボ数などを変更）
+            EvaluationManager.OnHit(judgementType);
+            // 効果音再生
+            AudioSource.PlayClipAtPoint(clipHit, transform.position);
+            // 未処理ノーツ一覧から削除
+            PlayerController.ExistingNoteControllers.Remove(
+            GetComponent<NoteControllerBase>()
+            );
+            // GameObject自体も削除
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnEnable()
+    {
+        GetComponent<FlickGesture>().Flicked += OnFlicked;
+    }
+
+    private void OnDisable()
+    {
+        GetComponent<FlickGesture>().Flicked -= OnFlicked;
+    }
+
+    private void OnFlicked(object sender, EventArgs e)
+    {
+
+        // 最近傍のノーツを処理すべきタイミング(sec)
+        var noteSec = noteProperty.secBegin;
+        // 処理すべきタイミングと
+        // 実際にキーが押されたタイミングの差の絶対値
+        var differenceSec = Mathf.Abs(noteSec - PlayerController.CurrentSec);
+        // 最近傍のノーツのOnKeyDownを呼び出し
+        var judgementType = JudgementManager.GetJudgementType(differenceSec);
+
         // デバッグ用にコンソールに判定を出力
         Debug.Log(judgementType);
 
